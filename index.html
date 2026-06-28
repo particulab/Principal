@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>EulerGames | Minijuegos educativos de física y matemáticas</title>
+
+  <meta
+    name="description"
+    content="EulerGames es una colección de minijuegos educativos de física, matemáticas y modelado donde el estudiante lee datos, calcula, decide, prueba y recibe retroalimentación."
+  />
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --bg-soft: #ffffff;
+      --text: #172033;
+      --muted: #647089;
+      --primary: #2457ff;
+      --primary-dark: #1637a8;
+      --accent: #00a878;
+      --warning: #f5a623;
+      --danger: #d94444;
+      --border: #dfe5f2;
+      --card: #ffffff;
+      --shadow: 0 18px 45px rgba(23, 32, 51, 0.10);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(36, 87, 255, 0.12), transparent 34rem),
+        radial-gradient(circle at top right, rgba(0, 168, 120, 0.10), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(245, 247, 251, 0.82);
+      border-bottom: 1px solid rgba(223, 229, 242, 0.8);
+    }
+
+    .nav {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 1.25rem;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: 0 10px 26px rgba(36, 87, 255, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 750;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 24px rgba(36, 87, 255, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 12px 24px rgba(23, 32, 51, 0.08);
+    }
+
+    main {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 82px 0 56px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.74);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(0, 168, 120, 0.13);
+    }
+
+    h1 {
+      margin: 22px 0 18px;
+      font-size: clamp(2.5rem, 7vw, 5.7rem);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      max-width: 680px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .hero-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-panel {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.72));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: -90px -90px auto auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(36, 87, 255, 0.12);
+    }
+
+    .mini-game {
+      position: relative;
+      background: #111827;
+      color: white;
+      border-radius: 22px;
+      padding: 20px;
+      overflow: hidden;
+      min-height: 320px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .mini-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.86rem;
+    }
+
+    .mini-grid {
+      position: absolute;
+      inset: 64px 20px 20px;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .curve {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      bottom: 72px;
+      height: 108px;
+      border-bottom: 4px solid rgba(0, 168, 120, 0.9);
+      border-radius: 0 0 50% 50%;
+      transform: rotate(-8deg);
+    }
+
+    .point {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.12);
+    }
+
+    .p1 { left: 18%; top: 56%; }
+    .p2 { left: 36%; top: 47%; }
+    .p3 { left: 58%; top: 38%; }
+    .p4 { left: 76%; top: 30%; }
+
+    .readout {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      right: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .readout div {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .readout strong {
+      display: block;
+      font-size: 1.05rem;
+      color: white;
+    }
+
+    .readout span {
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.75rem;
+    }
+
+    section {
+      padding: 58px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      min-height: 148px;
+      box-shadow: 0 12px 30px rgba(23, 32, 51, 0.05);
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      background: rgba(36, 87, 255, 0.10);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-weight: 850;
+      margin-bottom: 14px;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .game-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 14px 35px rgba(23, 32, 51, 0.06);
+      display: flex;
+      flex-direction: column;
+      min-height: 330px;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(36, 87, 255, 0.35);
+      box-shadow: 0 24px 48px rgba(23, 32, 51, 0.10);
+    }
+
+    .game-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      background: rgba(36, 87, 255, 0.09);
+      margin-bottom: 18px;
+    }
+
+    .game-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .game-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 14px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: #f1f4fb;
+      color: #47536b;
+    }
+
+    .tag.level {
+      background: rgba(0, 168, 120, 0.10);
+      color: #087f5b;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .card-actions a {
+      flex: 1;
+      text-align: center;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      font-weight: 780;
+    }
+
+    .play-link {
+      background: var(--primary);
+      color: white;
+    }
+
+    .readme-link {
+      background: #f1f4fb;
+      color: var(--text);
+    }
+
+    .teacher-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      background:
+        linear-gradient(135deg, #111827, #172033);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .teacher-panel::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      bottom: -100px;
+      border-radius: 50%;
+      background: rgba(0, 168, 120, 0.16);
+    }
+
+    .teacher-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .teacher-panel p {
+      color: rgba(255, 255, 255, 0.74);
+      margin: 0;
+    }
+
+    .teacher-list {
+      display: grid;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .teacher-item {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .teacher-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .teacher-item span {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.93rem;
+    }
+
+    .beta-box {
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .beta-box h2 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .beta-box p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 56px;
+      }
+
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .teacher-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav {
+        min-height: auto;
+        padding: 14px 0;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 44px 0 36px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 12px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .readout {
+        grid-template-columns: 1fr;
+      }
+
+      .mini-game {
+        min-height: 390px;
+      }
+
+      .beta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .beta-box .btn {
+        width: 100%;
+      }
+
+      .card-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navegación principal">
+      <a class="brand" href="#">
+        <span class="brand-mark">E</span>
+        <span>EulerGames</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#juegos">Juegos</a>
+        <a href="#metodo">Método</a>
+        <a href="#docentes">Docentes</a>
+        <a href="#beta">Beta</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">
+          <span class="dot"></span>
+          Minijuegos educativos sin anuncios
+        </div>
+
+        <h1>Aprender física y matemáticas jugando en serio.</h1>
+
+        <p>
+          EulerGames es una colección de retos interactivos donde el estudiante
+          no sólo observa una simulación: lee datos, calcula, decide, prueba su
+          respuesta y recibe retroalimentación.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#juegos">Explorar juegos</a>
+          <a class="btn btn-secondary" href="#docentes">Para docentes</a>
+        </div>
+
+        <div class="hero-note">
+          Proyecto en desarrollo. Todos los juegos funcionan en el navegador,
+          con HTML, CSS, JavaScript y Canvas.
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-label="Vista conceptual de un minijuego">
+        <div class="mini-game">
+          <div class="mini-top">
+            <span>Reto activo</span>
+            <span>Intento 1</span>
+          </div>
+
+          <div class="mini-grid"></div>
+          <div class="curve"></div>
+
+          <div class="point p1"></div>
+          <div class="point p2"></div>
+          <div class="point p3"></div>
+          <div class="point p4"></div>
+
+          <div class="readout">
+            <div>
+              <strong>Leer</strong>
+              <span>Datos del sistema</span>
+            </div>
+            <div>
+              <strong>Calcular</strong>
+              <span>Modelo o decisión</span>
+            </div>
+            <div>
+              <strong>Probar</strong>
+              <span>Retroalimentación</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo">
+      <div class="section-heading">
+        <h2>La idea</h2>
+        <p>
+          Cada juego está diseñado como una pequeña situación de decisión.
+          El alumno debe interpretar el problema antes de tocar los controles.
+        </p>
+      </div>
+
+      <div class="steps">
+        <article class="step">
+          <div class="step-number">1</div>
+          <strong>Leer datos</strong>
+          <span>El juego entrega información inicial del sistema.</span>
+        </article>
+
+        <article class="step">
+          <div class="step-number">2</div>
+          <strong>Discriminar</strong>
+          <span>No todo dato visible tiene la misma importancia.</span>
+        </article>
+
+        <article class="step">
+          <div class="step-number">3</div>
+          <strong>Calcular</strong>
+          <span>El estudiante razona, estima o modela en libreta.</span>
+        </article>
+
+        <article class="step">
+          <div class="step-number">4</div>
+          <strong>Decidir</strong>
+          <span>Debe elegir un parámetro, posición o estrategia.</span>
+        </article>
+
+        <article class="step">
+          <div class="step-number">5</div>
+          <strong>Probar</strong>
+          <span>La simulación ejecuta la decisión tomada.</span>
+        </article>
+
+        <article class="step">
+          <div class="step-number">6</div>
+          <strong>Reflexionar</strong>
+          <span>La retroalimentación aparece después del intento.</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="juegos">
+      <div class="section-heading">
+        <h2>Juegos disponibles</h2>
+        <p>
+          Primer paquete beta de retos interactivos de física, matemáticas,
+          estadística y modelado.
+        </p>
+      </div>
+
+      <div class="games-grid">
+        <article class="game-card">
+          <div class="game-icon">📈</div>
+          <h3>Ajuste lineal</h3>
+          <p>
+            Ajusta una recta a datos experimentales, observa residuos,
+            cuadrados del error y compara tu propuesta con el modelo óptimo.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Regresión</span>
+            <span class="tag">Estadística</span>
+            <span class="tag level">Nivel 2/5</span>
+            <span class="tag">15–25 min</span>
+          </div>
+
+          <div class="card-actions">
+            <a class="play-link" href="./juegos/ajuste-lineal/">Jugar</a>
+            <a class="readme-link" href="./juegos/ajuste-lineal/README.md">README</a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-icon">💧</div>
+          <h3>Tanque de Equilibrio</h3>
+          <p>
+            Controla el caudal de entrada de un tanque con fuga lateral para
+            alcanzar una altura objetivo en condiciones físicas variables.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Fluidos</span>
+            <span class="tag">Torricelli</span>
+            <span class="tag level">Nivel 3/5</span>
+            <span class="tag">20–30 min</span>
+          </div>
+
+          <div class="card-actions">
+            <a class="play-link" href="./juegos/tanque-equilibrio/">Jugar</a>
+            <a class="readme-link" href="./juegos/tanque-equilibrio/README.md">README</a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-icon">🎚️</div>
+          <h3>Control de nivel</h3>
+          <p>
+            Programa un perfil de apertura para estabilizar el nivel de un
+            tanque durante una simulación completa de 100 segundos.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Control</span>
+            <span class="tag">Modelado</span>
+            <span class="tag level">Nivel 4/5</span>
+            <span class="tag">30–45 min</span>
+          </div>
+
+          <div class="card-actions">
+            <a class="play-link" href="./juegos/control-nivel/">Jugar</a>
+            <a class="readme-link" href="./juegos/control-nivel/README.md">README</a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-icon">🏗️</div>
+          <h3>Grúa de Rescate</h3>
+          <p>
+            Ubica el contrapeso adecuado para equilibrar una barra sometida a
+            carga, distancia, torque y límites físicos del sistema.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Torque</span>
+            <span class="tag">Equilibrio</span>
+            <span class="tag level">Nivel 2/5</span>
+            <span class="tag">15–25 min</span>
+          </div>
+
+          <div class="card-actions">
+            <a class="play-link" href="./juegos/grua-rescate/">Jugar</a>
+            <a class="readme-link" href="./juegos/grua-rescate/README.md">README</a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-icon">🪀</div>
+          <h3>Rescate Elástico</h3>
+          <p>
+            Usa la deformación de un elástico para lanzar una carga hacia una
+            plataforma, considerando energía, trayectoria y gravedad.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Energía</span>
+            <span class="tag">Trayectoria</span>
+            <span class="tag level">Nivel 3/5</span>
+            <span class="tag">20–30 min</span>
+          </div>
+
+          <div class="card-actions">
+            <a class="play-link" href="./juegos/rescate-elastico/">Jugar</a>
+            <a class="readme-link" href="./juegos/rescate-elastico/README.md">README</a>
+          </div>
+        </article>
+
+        <article class="game-card">
+          <div class="game-icon">🚀</div>
+          <h3>Aterrizaje suave</h3>
+          <p>
+            Decide la potencia del motor para lograr un descenso controlado,
+            considerando gravedad, velocidad, combustible y condiciones de impacto.
+          </p>
+
+          <div class="tags">
+            <span class="tag">Dinámica</span>
+            <span class="tag">Movimiento</span>
+            <span class="tag level">Nivel 3/5</span>
+            <span class="tag">20–30 min</span>
+          </div>
+
+          <div class="card-actions">
+            <a class="play-link" href="./juegos/aterrizaje-suave/">Jugar</a>
+            <a class="readme-link" href="./juegos/aterrizaje-suave/README.md">README</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="docentes">
+      <div class="teacher-panel">
+        <div>
+          <h2>Para docentes</h2>
+          <p>
+            EulerGames está pensado para complementar clases, laboratorios,
+            asesorías y actividades de razonamiento. La intención no es
+            reemplazar el problema escrito, sino darle una consecuencia visual
+            e interactiva.
+          </p>
+        </div>
+
+        <div class="teacher-list">
+          <div class="teacher-item">
+            <strong>Actividades de 15 a 45 minutos</strong>
+            <span>
+              Cada reto puede utilizarse como actividad breve, cierre de tema
+              o ejercicio aplicado.
+            </span>
+          </div>
+
+          <div class="teacher-item">
+            <strong>Sin fórmulas antes del intento</strong>
+            <span>
+              El estudiante debe identificar el modelo, calcular y decidir
+              antes de recibir retroalimentación.
+            </span>
+          </div>
+
+          <div class="teacher-item">
+            <strong>Documentación por juego</strong>
+            <span>
+              Cada minijuego puede acompañarse con README, guía docente,
+              solución razonada y criterios de evaluación.
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beta">
+      <div class="beta-box">
+        <div>
+          <h2>EulerGames Beta</h2>
+          <p>
+            Este proyecto está en desarrollo. La página permanecerá limpia,
+            gratuita y sin anuncios mientras se construye el primer catálogo
+            de minijuegos educativos.
+          </p>
+        </div>
+
+        <a class="btn btn-primary" href="#juegos">Ver juegos</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>
+        © <span id="year"></span> EulerGames. Minijuegos educativos de física y matemáticas.
+      </span>
+
+      <span>
+        HTML · CSS · JavaScript · Canvas · Sin librerías externas
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
